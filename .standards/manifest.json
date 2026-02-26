@@ -136,7 +136,17 @@
       }
     ]
   },
-  "methodology": null,
+  "methodology": {
+    "active": "sdd",
+    "available": ["tdd", "bdd", "sdd", "atdd"],
+    "config": {
+      "sdd": {
+        "checkpointsEnabled": true,
+        "reminderIntensity": "suggest",
+        "skipLimit": 3
+      }
+    }
+  },
   "fileHashes": {
     ".standards/deployment-standards.ai.yaml": {
       "hash": "sha256:e9900792348882ab5627456b99610d13abbafde93dbcffc3bca0950ab169ffab",
