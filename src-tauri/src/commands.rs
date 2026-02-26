@@ -1,22 +1,25 @@
 use tauri::State;
 
-use crate::state::{AgentStatus, AppState};
+use crate::state::{AgentStatus, AppState, SessionInfo};
 use crate::tray;
 
 #[tauri::command]
 pub fn switch_tray_icon(
     app: tauri::AppHandle,
-    state: State<AppState>,
+    _state: State<AppState>,
     status: AgentStatus,
 ) -> Result<String, String> {
     tray::update_tray_icon(&app, &status).map_err(|e| e.to_string())?;
-    let mut current = state.current_status.lock().map_err(|e| e.to_string())?;
-    *current = status;
     Ok(format!("Tray icon switched to {:?}", status))
 }
 
 #[tauri::command]
 pub fn get_current_status(state: State<AppState>) -> Result<AgentStatus, String> {
-    let current = state.current_status.lock().map_err(|e| e.to_string())?;
-    Ok(*current)
+    Ok(state.effective_status())
+}
+
+#[tauri::command]
+pub fn get_sessions(state: State<AppState>) -> Result<Vec<SessionInfo>, String> {
+    let sessions = state.sessions.lock().map_err(|e| e.to_string())?;
+    Ok(sessions.values().cloned().collect())
 }

@@ -47,7 +47,7 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
             "quit" => app.exit(0),
             "about" => {
                 // TODO: v0.3.0 — 顯示 About 視窗
-                println!("Code Buddy v0.1.0");
+                println!("Code Buddy v0.2.0");
             }
             _ => {}
         })
