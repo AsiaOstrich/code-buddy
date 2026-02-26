@@ -1,8 +1,8 @@
 use tauri::{
     image::Image,
     menu::{MenuBuilder, MenuItem},
-    tray::TrayIconBuilder,
-    AppHandle,
+    tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
+    AppHandle, Manager,
 };
 
 use crate::state::AgentStatus;
@@ -27,11 +27,22 @@ pub fn get_icon_bytes(status: &AgentStatus) -> &'static [u8] {
     }
 }
 
+/// 顯示並聚焦 Dev Panel 視窗
+fn show_and_focus_window(app: &AppHandle) {
+    if let Some(window) = app.get_webview_window("devpanel") {
+        let _ = window.show();
+        let _ = window.set_focus();
+    }
+}
+
 pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
+    let show = MenuItem::with_id(app, "show", "顯示面板", true, None::<&str>)?;
     let about = MenuItem::with_id(app, "about", "關於 Code Buddy", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, "quit", "退出 Code Buddy", true, None::<&str>)?;
 
     let menu = MenuBuilder::new(app)
+        .item(&show)
+        .separator()
         .item(&about)
         .separator()
         .item(&quit)
@@ -44,12 +55,23 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id.as_ref() {
+            "show" => show_and_focus_window(app),
             "quit" => app.exit(0),
             "about" => {
                 // TODO: v0.3.0 — 顯示 About 視窗
                 println!("Code Buddy v0.2.0");
             }
             _ => {}
+        })
+        .on_tray_icon_event(|tray, event| {
+            if let TrayIconEvent::Click {
+                button: MouseButton::Left,
+                button_state: MouseButtonState::Up,
+                ..
+            } = event
+            {
+                show_and_focus_window(tray.app_handle());
+            }
         })
         .build(app)?;
 

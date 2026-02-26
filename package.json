@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "tauri:bg": "bash scripts/tauri-dev-bg.sh",
+    "tauri:stop": "bash scripts/tauri-dev-stop.sh"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
