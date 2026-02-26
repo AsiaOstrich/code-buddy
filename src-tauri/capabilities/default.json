@@ -1,0 +1,8 @@
+{
+  "identifier": "default",
+  "description": "Default capability for Code Buddy",
+  "windows": ["*"],
+  "permissions": [
+    "core:default"
+  ]
+}

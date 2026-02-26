@@ -1,9 +1,10 @@
 # SPEC-001 Code Buddy — AI Coding Agent 狀態監控桌面應用
 
-> **Status**: Draft
+> **Status**: Approved
 > **Author**: AlbertHsu
 > **Created**: 2026-02-26
 > **Last Updated**: 2026-02-26
+> **Approved**: 2026-02-26
 
 ---
 

@@ -1,0 +1,27 @@
+{
+  "name": "Ostrich",
+  "version": "1.0.0",
+  "description": "預設鴕鳥主題 — Code Buddy 的官方 Buddy 角色",
+  "author": "AsiaOstrich",
+  "buddy": {
+    "name": "Ostrich",
+    "animations": {
+      "idle": "animations/idle.json",
+      "working": "animations/working.json",
+      "thinking": "animations/thinking.json",
+      "waiting_input": "animations/waiting_input.json",
+      "waiting_confirm": "animations/waiting_confirm.json",
+      "completed": "animations/completed.json",
+      "error": "animations/error.json"
+    }
+  },
+  "colors": {
+    "idle": "#999999",
+    "working": "#2196F3",
+    "thinking": "#9C27B0",
+    "waiting_input": "#FFC107",
+    "waiting_confirm": "#FF9800",
+    "completed": "#4CAF50",
+    "error": "#F44336"
+  }
+}
