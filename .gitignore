@@ -145,3 +145,6 @@ vite.config.ts.timestamp-*
 
 # Tauri
 /src-tauri/gen/
+
+# Claude Code local settings (personal permissions)
+.claude/settings.local.json
