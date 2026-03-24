@@ -1,9 +1,10 @@
 {
-  "version": "5.0.0-rc.2",
+  "version": "5.0.0-rc.16",
   "source": "universal-dev-standards",
   "agent": "opencode",
   "level": "project",
   "commands": [
+    "ac-coverage",
     "atdd",
     "bdd",
     "brainstorm",
@@ -18,6 +19,7 @@
     "derive-bdd",
     "derive-tdd",
     "derive",
+    "dev-workflow",
     "discover",
     "docgen",
     "docs",
@@ -32,9 +34,10 @@
     "reverse-tdd",
     "reverse",
     "review",
+    "sdd-retro",
     "sdd",
     "tdd",
     "update"
   ],
-  "installedDate": "2026-02-26"
+  "installedDate": "2026-03-24"
 }

@@ -2,8 +2,8 @@
   "version": "3.3.0",
   "upstream": {
     "repo": "AsiaOstrich/universal-dev-standards",
-    "version": "5.0.0-rc.2",
-    "installed": "2026-02-26"
+    "version": "5.0.0-rc.16",
+    "installed": "2026-03-24"
   },
   "level": 3,
   "format": "ai",
@@ -18,7 +18,49 @@
     "ai/standards/performance-standards.ai.yaml",
     "ai/standards/accessibility-standards.ai.yaml",
     "ai/standards/developer-memory.ai.yaml",
-    "ai/standards/project-context-memory.ai.yaml"
+    "ai/standards/project-context-memory.ai.yaml",
+    "ai/standards/anti-hallucination.ai.yaml",
+    "ai/standards/ai-friendly-architecture.ai.yaml",
+    "ai/standards/commit-message.ai.yaml",
+    "ai/standards/checkin-standards.ai.yaml",
+    "ai/standards/api-design-standards.ai.yaml",
+    "ai/standards/database-standards.ai.yaml",
+    "ai/standards/spec-driven-development.ai.yaml",
+    "ai/standards/code-review.ai.yaml",
+    "ai/standards/git-workflow.ai.yaml",
+    "ai/standards/versioning.ai.yaml",
+    "ai/standards/changelog.ai.yaml",
+    "ai/standards/test-governance.ai.yaml",
+    "ai/standards/structured-task-definition.ai.yaml",
+    "ai/standards/workflow-state-protocol.ai.yaml",
+    "ai/standards/workflow-enforcement.ai.yaml",
+    "ai/standards/testing.ai.yaml",
+    "ai/standards/documentation-structure.ai.yaml",
+    "ai/standards/ai-instruction-standards.ai.yaml",
+    "ai/standards/project-structure.ai.yaml",
+    "ai/standards/error-codes.ai.yaml",
+    "ai/standards/logging.ai.yaml",
+    "ai/standards/test-completeness-dimensions.ai.yaml",
+    "ai/standards/test-driven-development.ai.yaml",
+    "ai/standards/behavior-driven-development.ai.yaml",
+    "ai/standards/acceptance-test-driven-development.ai.yaml",
+    "ai/standards/reverse-engineering-standards.ai.yaml",
+    "ai/standards/forward-derivation-standards.ai.yaml",
+    "ai/standards/refactoring-standards.ai.yaml",
+    "ai/standards/requirement-engineering.ai.yaml",
+    "ai/standards/context-aware-loading.ai.yaml",
+    "templates/requirement-checklist.md",
+    "templates/requirement-template.md",
+    "templates/requirement-document-template.md",
+    "ai/standards/pipeline-integration-standards.ai.yaml",
+    "ai/standards/acceptance-criteria-traceability.ai.yaml",
+    "ai/standards/change-batching-standards.ai.yaml",
+    "ai/standards/systematic-debugging.ai.yaml",
+    "ai/standards/agent-dispatch.ai.yaml",
+    "ai/standards/model-selection.ai.yaml",
+    "ai/standards/git-worktree.ai.yaml",
+    "ai/standards/branch-completion.ai.yaml",
+    "ai/standards/verification-evidence.ai.yaml"
   ],
   "extensions": [
     "extensions/locales/zh-tw.md"
@@ -81,7 +123,7 @@
       "tools",
       "workflows"
     ],
-    "version": "5.0.0-rc.2",
+    "version": "5.0.0-rc.16",
     "installations": [
       {
         "agent": "claude-code",
@@ -128,7 +170,7 @@
       "tdd",
       "update"
     ],
-    "version": "5.0.0-rc.2",
+    "version": "5.0.0-rc.16",
     "installations": [
       {
         "agent": "opencode",
@@ -138,7 +180,12 @@
   },
   "methodology": {
     "active": "sdd",
-    "available": ["tdd", "bdd", "sdd", "atdd"],
+    "available": [
+      "tdd",
+      "bdd",
+      "sdd",
+      "atdd"
+    ],
     "config": {
       "sdd": {
         "checkpointsEnabled": true,
@@ -151,247 +198,482 @@
     ".standards/deployment-standards.ai.yaml": {
       "hash": "sha256:e9900792348882ab5627456b99610d13abbafde93dbcffc3bca0950ab169ffab",
       "size": 5516,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/documentation-writing-standards.ai.yaml": {
-      "hash": "sha256:a251f8fe360624dc1a5d00c2814a272f37e4f5d2cc5f2d4e1074c10e0ab18643",
-      "size": 5338,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "hash": "sha256:b0da9cdea77b27711412d46fae1c361d5e8e226d0555030c88f08a5d222985b2",
+      "size": 8076,
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/ai-agreement-standards.ai.yaml": {
       "hash": "sha256:6e5ed7f22f7267098ae1ff7dd236c7aa4bcc41a59d6bd4e58f150ac9fc25a048",
       "size": 620,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/virtual-organization-standards.ai.yaml": {
       "hash": "sha256:2f634b60db4ffe62a77b374d07bd788785cada6333ce2b6332409734fe073214",
       "size": 642,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/security-standards.ai.yaml": {
       "hash": "sha256:8802e9bbac456c06612102b655144a1f9d4483458bea9699952cdec22b7396bf",
       "size": 4261,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/performance-standards.ai.yaml": {
       "hash": "sha256:c1f879f2114275813f0a2fbbd034b4cda361dec840463f9e6adc370b08bb14b0",
       "size": 4563,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/accessibility-standards.ai.yaml": {
       "hash": "sha256:0ee788c5b64270d80e67a11a0b99937bf45338002c839a4b58fe46aed19a9db0",
       "size": 4310,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/developer-memory.ai.yaml": {
       "hash": "sha256:f8a0c0e3f25289684ef142ded38eaa02ab9d5164463f77e5ba1f0c8223dc4275",
       "size": 8004,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/project-context-memory.ai.yaml": {
       "hash": "sha256:1c739dd94b26a0fb62e64aade95298893e01ab1d7a4ed33d3e82c2b856f4c65c",
       "size": 4405,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
     },
     ".standards/zh-tw.md": {
       "hash": "sha256:47e575ab5e47f9a94a43e9d609f9f94d282206300ba93fb6283a5a6036986c42",
       "size": 20458,
-      "installedAt": "2026-02-26T03:11:27.360Z"
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/anti-hallucination.ai.yaml": {
+      "hash": "sha256:1a2e18d0726a329f689305b8f3813fb9896ec23286016843e8e66c660297cfe6",
+      "size": 7369,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/ai-friendly-architecture.ai.yaml": {
+      "hash": "sha256:43b8a7eccc5ae3026aa27d601bd0018142ffcde34130ab81175e5e28b6d2fe6a",
+      "size": 5872,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/commit-message.ai.yaml": {
+      "hash": "sha256:28d3c07bdb15a7ef27a046e088f03bc9752e24f39d940db43fffc77134907172",
+      "size": 3640,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/checkin-standards.ai.yaml": {
+      "hash": "sha256:100c976741d0659f9898dec0e7a66272d6b59fc12347fc36334f6c4113198d45",
+      "size": 5349,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/api-design-standards.ai.yaml": {
+      "hash": "sha256:7abfc4c3a23e946877275a364ada98bfe9099dd20edbe3856c2da430b4fecea3",
+      "size": 7272,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/database-standards.ai.yaml": {
+      "hash": "sha256:4b693b07c45a15042789e895a1542a3a75a389d5832126c18221323b1af47ef2",
+      "size": 9152,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/spec-driven-development.ai.yaml": {
+      "hash": "sha256:f2f6c6f57f58894ac03888d436ab493bfa71122d310202c41d0232709e79bca0",
+      "size": 4995,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/code-review.ai.yaml": {
+      "hash": "sha256:0a26401d32645a42367b8313868e3de466ba0833872438034ca39dee5e593cdf",
+      "size": 4663,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/git-workflow.ai.yaml": {
+      "hash": "sha256:a8587127cf1e4be81a165642edb79770cec1f83a02adc2fd4f16441a47bd7b2f",
+      "size": 2878,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/versioning.ai.yaml": {
+      "hash": "sha256:d53ff8d5bd083d5b0f106c50ecdd18801733f2966ccb2bfdbe20efc29fd42a4a",
+      "size": 5672,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/changelog.ai.yaml": {
+      "hash": "sha256:5e0165d3b916452694d208b43e5b87bea0e85b128959a3f057e04caa19d9fe9d",
+      "size": 3311,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/test-governance.ai.yaml": {
+      "hash": "sha256:c1f4a1c1fcaf0e93657f7bf148781918222000dc74318cf1fc6f24ad4aac1165",
+      "size": 5291,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/structured-task-definition.ai.yaml": {
+      "hash": "sha256:d0b34c199b45528307e03a96563815060f00180b07eb766b89f9ec5ec11ed247",
+      "size": 4091,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/workflow-state-protocol.ai.yaml": {
+      "hash": "sha256:20768f79355f03b51477ccde1a5f2a072444cf95a2abf750f7061ec5b8bc7df1",
+      "size": 4509,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/workflow-enforcement.ai.yaml": {
+      "hash": "sha256:aa037a3e9e1dd638576ba8fd820e98abb8ca205e0fa1e0e408eaf51335b687d1",
+      "size": 8669,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/testing.ai.yaml": {
+      "hash": "sha256:be0049c88ddae797f01246c8a08b5201040f679fd8dd458443fdeaf544c219ab",
+      "size": 4472,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/documentation-structure.ai.yaml": {
+      "hash": "sha256:b698b62ecc67a62b246ffc65a2ed5d39571042a252a41c095f001e607c1086b4",
+      "size": 5608,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/ai-instruction-standards.ai.yaml": {
+      "hash": "sha256:169162e80cd01fe75f73a342812998d6a3fc154f3312085bdc4d602ba6981f2c",
+      "size": 4270,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/project-structure.ai.yaml": {
+      "hash": "sha256:f5c8119cfb4b9a6ac95207179d94ff974bbadc72376e4a2ffa4e886e11cfe97e",
+      "size": 3536,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/error-codes.ai.yaml": {
+      "hash": "sha256:5265ab6cff3e101e187f3a177d21a1513e344a006fa0a1ee768ecf79191d6275",
+      "size": 4733,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/logging.ai.yaml": {
+      "hash": "sha256:107eac82b206dbdfd925ad5d03806a1f93c01157ece093a2967dd711369ff0fd",
+      "size": 3682,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/test-completeness-dimensions.ai.yaml": {
+      "hash": "sha256:6db68c70983f4c727d5a543a2a43bef5ea5aaa47930e46b29c665148ca1394b9",
+      "size": 7793,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/test-driven-development.ai.yaml": {
+      "hash": "sha256:f09a8980cfbe669cd1dbfe684150af46f412c97ddbcad03db2bb2ed6686b655f",
+      "size": 9558,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/behavior-driven-development.ai.yaml": {
+      "hash": "sha256:a094a6ee31110ef4ae5030c94a7aeb701d9433fe1c1b1d1d26e9962550489711",
+      "size": 9654,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/acceptance-test-driven-development.ai.yaml": {
+      "hash": "sha256:dfdcd28c987fcd9edaaec96f6859522e2216638fb951b19b10b0633e696e2b12",
+      "size": 10106,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/reverse-engineering-standards.ai.yaml": {
+      "hash": "sha256:a45cdf0704003218e4012919311615f2c8722add8ca85fbff3565f6e0445d0e9",
+      "size": 9356,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/forward-derivation-standards.ai.yaml": {
+      "hash": "sha256:890f0ed60ad18dee3c925941320bf2aed68b9c6389e410d2b749553ea89107bd",
+      "size": 13349,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/refactoring-standards.ai.yaml": {
+      "hash": "sha256:5682bc00cd25319dc88d5bfb56170c35a8d1b1fe8fd9243d0093e037630542c7",
+      "size": 15369,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/requirement-engineering.ai.yaml": {
+      "hash": "sha256:3e0bdba2b78a9a39bf2cd77fe55b1204a8b880d1b65d404542c1e80676486367",
+      "size": 6524,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/context-aware-loading.ai.yaml": {
+      "hash": "sha256:be9d61007a21bb03be40011d2c2cc938a94bc6275ce2839076b22262d4ec0628",
+      "size": 5926,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/requirement-checklist.md": {
+      "hash": "sha256:ce4263622590c79a4121a9c6c295db599ee1f5dc43c8cd40ebb2804704a0b750",
+      "size": 11176,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/requirement-template.md": {
+      "hash": "sha256:444375156667a1470464b1f9f631412343e532f66e52fc423f35354129f830d9",
+      "size": 15118,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/requirement-document-template.md": {
+      "hash": "sha256:7de0f7326335a0554e579f33d82a633e2ad931185a340634a524924499f65aa4",
+      "size": 12752,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/pipeline-integration-standards.ai.yaml": {
+      "hash": "sha256:5970b87c88e9722bfa28fe3e2bf286b520b63be1ae92d495106a7d420513dac9",
+      "size": 6115,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/acceptance-criteria-traceability.ai.yaml": {
+      "hash": "sha256:0c08af3ef7687c7ebbb12a4769172ff2d6540a6e12c0f1cd127d34ff064a59b5",
+      "size": 6042,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/change-batching-standards.ai.yaml": {
+      "hash": "sha256:e95b4a5cea6f20849357f002f1454bf147b1b359c95a927221fad6aab2599e73",
+      "size": 6136,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/systematic-debugging.ai.yaml": {
+      "hash": "sha256:2584b82b62c4d8f18c8fa19eb109b146dcf095eeca9862e210305e9a6a47a98b",
+      "size": 2712,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/agent-dispatch.ai.yaml": {
+      "hash": "sha256:f17e49ac671a393a3d413f0f56e2275037d40f394c87128e00d7475d35f81889",
+      "size": 2691,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/model-selection.ai.yaml": {
+      "hash": "sha256:87bfa5a62afb918c153f26efc3a65edc220650ff3663b90076ec6d531a113916",
+      "size": 2603,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/git-worktree.ai.yaml": {
+      "hash": "sha256:9b674a07b8d4a06635197dc81f1ced6b36ad5f0e91a650156cf4e56f4a24ea96",
+      "size": 2467,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/branch-completion.ai.yaml": {
+      "hash": "sha256:60c33a6c069c25b0e6e3616b32148bc184881c3408f9f08b6aef0569f1fb5266",
+      "size": 2484,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    ".standards/verification-evidence.ai.yaml": {
+      "hash": "sha256:2c8330b259eb0dc8aeddaa8963fcf5ecf40c04e57e5fbcbdc86f70fba60af720",
+      "size": 2906,
+      "installedAt": "2026-03-24T07:24:29.609Z"
+    },
+    "CLAUDE.md": {
+      "hash": "sha256:a229101b4bbe4af62f17b57fba2c12aaa76029fed4db1639c0dbde36a05021d5",
+      "size": 5528,
+      "installedAt": "2026-03-24T07:24:33.041Z"
+    },
+    "AGENTS.md": {
+      "hash": "sha256:14671c6461f347653e1d89387d6f6bcb7ab7970bd2bc6a6305635b857f306ab8",
+      "size": 5535,
+      "installedAt": "2026-03-24T07:24:33.041Z"
     }
   },
   "skillHashes": {
     "claude-code/project/tdd-assistant/SKILL.md": {
-      "hash": "sha256:8ed81f24e07ecfa99722af20a876566c0d2a73c25dfe31c8a737fb08eca99ae3",
-      "size": 2556,
-      "installedAt": "2026-02-26T03:11:27.415Z"
+      "hash": "sha256:7d9f2dde514f4abc7528c7ce0df663a915dfab785a0983eb92e5e0061873e4fa",
+      "size": 2509,
+      "installedAt": "2026-03-24T07:24:33.007Z"
     },
     "claude-code/project/tdd-assistant/guide.md": {
-      "hash": "sha256:9a023c08eb81100d334e339754d103eb147811283514f25989955bbba24e4bdf",
-      "size": 12128,
-      "installedAt": "2026-02-26T03:11:27.415Z"
+      "hash": "sha256:ccbdb1a1e23a8f4b2bc6a2447c9d4b5013cb997d57cffb493370f3a40737ef96",
+      "size": 10315,
+      "installedAt": "2026-03-24T07:24:33.007Z"
     },
     "opencode/project/tdd-assistant/SKILL.md": {
-      "hash": "sha256:8ed81f24e07ecfa99722af20a876566c0d2a73c25dfe31c8a737fb08eca99ae3",
-      "size": 2556,
-      "installedAt": "2026-02-26T03:11:27.431Z"
+      "hash": "sha256:7d9f2dde514f4abc7528c7ce0df663a915dfab785a0983eb92e5e0061873e4fa",
+      "size": 2509,
+      "installedAt": "2026-03-24T07:24:33.026Z"
     },
     "opencode/project/tdd-assistant/guide.md": {
-      "hash": "sha256:9a023c08eb81100d334e339754d103eb147811283514f25989955bbba24e4bdf",
-      "size": 12128,
-      "installedAt": "2026-02-26T03:11:27.431Z"
+      "hash": "sha256:ccbdb1a1e23a8f4b2bc6a2447c9d4b5013cb997d57cffb493370f3a40737ef96",
+      "size": 10315,
+      "installedAt": "2026-03-24T07:24:33.026Z"
     }
   },
   "commandHashes": {
+    "opencode/ac-coverage.md": {
+      "hash": "sha256:3b461b527ea242e309c71ae7101368a3249a913a6589c548e8a831489da9448a",
+      "size": 2807,
+      "installedAt": "2026-03-24T07:24:33.039Z"
+    },
     "opencode/atdd.md": {
-      "hash": "sha256:686f13d1832f129492a3fa822317f77e3fe4c5eacb206636412c480985e886ee",
-      "size": 5872,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:8dae39fa41dadf7428f8a278652c9657a2d565beef929317d8ccf48aff0d60a5",
+      "size": 5176,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/bdd.md": {
-      "hash": "sha256:976116cae04bc68bcface5a09e1f8104f71ac51927c8237b80ab3f0775fc0c40",
-      "size": 5271,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:b960bfc58277e4577a984f8f24cfd14404643649e644ff602536a674b4325c85",
+      "size": 4443,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/brainstorm.md": {
-      "hash": "sha256:85d781db9f011f2e95471426aca5cf29badfbc5cdb6744270e6a9e47d58f4907",
-      "size": 2744,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:d29108c7e45600e20fd6d09c6f43c3fabcbdf8788019e8a621980c35e1249900",
+      "size": 2412,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/changelog.md": {
-      "hash": "sha256:bf163545255b658ef0f23c3ebdd3d09367578c2ffc32e11659bf8dfd647181ef",
-      "size": 1885,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:85e53cb18109ad8f974bd35d2e1a1ac6b7e4411af006b9ef28634d3c909c0797",
+      "size": 1594,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/check.md": {
-      "hash": "sha256:083e0f6ecaf98d02501d56fcd018d13f01d68895ef59c54b01539eb8212ee67b",
-      "size": 6413,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:b216e4f31ac2d6445e04c9e35d1597dfd1f8833bf81eba0d2ee0d49ae4a62fa1",
+      "size": 5677,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/checkin.md": {
-      "hash": "sha256:37e4583eb75128baa779356feba44545ba358acc625dc764df0935901dd3ae07",
-      "size": 1991,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:e0a2682b708d4ec371fb541a1c92f0a0836f9e84b31ec715f96d1238e982c2cd",
+      "size": 1869,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/commit.md": {
-      "hash": "sha256:be6fcd59b18aa37d1138c78c7f360fd73fb1fe0da78534ec3741d254a187230d",
-      "size": 1650,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:99cba3aa1cb80c36c2a3565ddc90c4992ed5fc0f6579ae6ea90005f265aba6e1",
+      "size": 2960,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/config.md": {
-      "hash": "sha256:6f9712977f4ec370f967ca7cf4fa40c4cc2e0e3004169537976838f132f2b63b",
-      "size": 7337,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:284bbad5671edc75d71ec57917baa9cb590991e8fee6c84ac631b95f5221a08f",
+      "size": 5639,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/coverage.md": {
-      "hash": "sha256:a6cef5b85b22e453a81be7ba9f9101a8cac59a3de5783857a6fece8e99a4d27c",
-      "size": 2100,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:5ad28098fe42157fd4d0f58b7f1a58bbd70140cea9f4474657663378c32f978e",
+      "size": 2507,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/derive-all.md": {
-      "hash": "sha256:bf66d28d5ff26f023aeddb9de373805aaa473da987dd7b8e900087f3f4f48568",
-      "size": 1985,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:172792fce4645734548d30e79794ec303109551a7b8401cfb2c780d64efbaa4d",
+      "size": 1817,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/derive-atdd.md": {
-      "hash": "sha256:c26addfe981d83a48b1098ebb83ed692953b68d44a10e9065740497a2a5f3ad2",
-      "size": 1618,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:0fbd8e1be7471e962b51bb932ff3216f9b7d16757c33a97a4d7c3e0d81c94f2a",
+      "size": 1561,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/derive-bdd.md": {
-      "hash": "sha256:18a2b0d5a11a17484cd292113a3dbdb0663435efe914d1a491e66b081b5af6f2",
-      "size": 1335,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:496ce6bec42551578a20c38b2a44f07dad478585d4f87de2952f2e073b471c27",
+      "size": 1294,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/derive-tdd.md": {
-      "hash": "sha256:0e51cb84e68e529bb5f99305e8f409e1f53ed40c856619ace74eb30f4a2023e9",
-      "size": 1438,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:3f9126c26c64100da1b6c5137a41d6ca558dcb03a9083c924c23c6ed9a68010d",
+      "size": 1397,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/derive.md": {
-      "hash": "sha256:5406064e85226064a910c39f68754fd244732b909bc5281c9db6af9fa2b3adbe",
-      "size": 2439,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:f554683491cbfff35320c94023abd6f5e8efb8155e8785b34554463a1686144d",
+      "size": 2352,
+      "installedAt": "2026-03-24T07:24:33.039Z"
+    },
+    "opencode/dev-workflow.md": {
+      "hash": "sha256:586b1aa9f609af7eb937465fc9977fc3ed30763c3cb767a0e1307aedc3a4131b",
+      "size": 3919,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/discover.md": {
-      "hash": "sha256:b52bfb3d7a7420ea938e9defaae6c9dc131557fc5f9b7d91c7772b9e14c8c738",
-      "size": 3126,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:be2c4160bfc7145a57734d41f91307a19bece4faa76a489c2d9f3d4292aee1f3",
+      "size": 2704,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/docgen.md": {
-      "hash": "sha256:3d3a8e3d411546cd942a81eb1acd19ffaeaa6e6d1092d9ec5371bf24066f89b9",
-      "size": 1808,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:32cab4fd52e0d7a7d5f86f8280bd796c8c81e650902213f73fdceb835a53377b",
+      "size": 1594,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/docs.md": {
-      "hash": "sha256:031364de8ea22ee0ee39dc5ee72492f7909d9bc1f7d97d0c6b5e73ca44480086",
-      "size": 1334,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:69db679663efd6f73680c9eb8a022bac3b7d55b777b288b64c186665c5690e12",
+      "size": 1342,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/guide.md": {
-      "hash": "sha256:090fe71f2b22b11c7864fa02dcda2baab75a1171d863a473e83d9481c529e9a5",
-      "size": 1680,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:ec384eea2afb521a17117daf9c02d53c21aa7d7261615c710a714c667b7ab4d1",
+      "size": 1639,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/init.md": {
-      "hash": "sha256:5fb95e6babd08eafd5646dba6790141b9ae7013a7fa3877c80be21894631e456",
-      "size": 9981,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:46f4953d508d54d83743a2f386ead1fa5b3f904cc2c9537b80410ecae6606686",
+      "size": 8255,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/methodology.md": {
-      "hash": "sha256:8d28bffda6f9ee4bcb69df9965555c913a3c8596a6f73a8b96cdc48a5f72fe9b",
-      "size": 7469,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:7efc33fb43294b8daf719adfcaab48d2139fa9720aa9c95d834a9ab1f905b78e",
+      "size": 6200,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/refactor.md": {
-      "hash": "sha256:57e7e7a01ea13e644661167f4e7c1bce0d5eac5be7c11e90a09d3c22813933a3",
-      "size": 6720,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:5e0c8626a64373dc9cb9995db6ef49b770ba10c7c204042d1adae69aca22a37c",
+      "size": 5604,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/release.md": {
-      "hash": "sha256:38af8e0b1cee643b5a2333057e9f0f1a40691ce0a577825f13c5f3ff738b1de3",
-      "size": 1238,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:0d0fa632e6269e597238bd73b36d690e0aaed17eab73e09e4662038aa56bdf89",
+      "size": 1295,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/requirement.md": {
-      "hash": "sha256:5f0046da7d59eaf3011451b79eacd0388e4a89241e838362f0ee31eadba64001",
-      "size": 1847,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:d3b998036b19cb1c682b424d96d48bf47504af65bb2487c98f8be19665de04cb",
+      "size": 1639,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/reverse-bdd.md": {
-      "hash": "sha256:ef7f646394f3a781b1f5836c4495117fa290aa2b22cadacf593b6b6f94650749",
-      "size": 1479,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:082cea30a48c5c0b8a062eb2af205d40c3b44695625a9f0c3d8ff26aea78a2d7",
+      "size": 1455,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/reverse-sdd.md": {
-      "hash": "sha256:9cf32745b9c5e98a0dcb5948cede156be53f29946ffa1da901dc55a8a7f20c6d",
-      "size": 1660,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:c4df445272c6a5fe4e2ab689eb6ad8d6d5c2261ab8a8ca73b75023e3cec2baed",
+      "size": 1610,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/reverse-tdd.md": {
-      "hash": "sha256:69004c7753f317ad3d2042a5d19bf3d02152bf8c043b31b130463829fe4b9ada",
-      "size": 1531,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:98eb1b5777c7fb8be37e0ac198ecd16c20773f86908bafe9ffcbc7ee1aa4fb50",
+      "size": 1517,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/reverse.md": {
-      "hash": "sha256:03480a60c49d8647fc31d89e8a27fdc3b2bf66afa3ee3b0dc0ed7f4f495ba907",
-      "size": 1839,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:12959bbea5af38aaa2d295bcfc4ab4606b0ebd28691d39f130f58f04995f739c",
+      "size": 1831,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/review.md": {
-      "hash": "sha256:2b67264f0631465ecb8903c3688d6ac94b4abef8406b4ebc53974344b8e31269",
-      "size": 1793,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:9a693f107030cca52bebb8164dd6e4c88c722df133183828d7b69b2b49685afb",
+      "size": 1738,
+      "installedAt": "2026-03-24T07:24:33.039Z"
+    },
+    "opencode/sdd-retro.md": {
+      "hash": "sha256:abc3795033883aaa7bc615b6c6e872f5edaf794b0701d4c93587a758097b6751",
+      "size": 1404,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/sdd.md": {
-      "hash": "sha256:246f1307ec3e53a5540a46859fe8966deb491244f8ae4d65c62078fc9698c3e7",
-      "size": 3642,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:5c4c75fcb7454409fad025bc9312d5e8b9c9af6a2947f767b268a60faabce21d",
+      "size": 10415,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/tdd.md": {
-      "hash": "sha256:6ac36eaf70c87934d5713d8c3b69db035d3e93219ef7c7ae2488252d60ae9e37",
-      "size": 3202,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:1db9d6f4877f9fca9ced82cbe8ffb7eac624f0033332baabf28a2af3713f298f",
+      "size": 3907,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     },
     "opencode/update.md": {
-      "hash": "sha256:601940f0aadedb2c8b8c96ec7217f4ba2610333a876419ef5b7d222054bcaea8",
-      "size": 12981,
-      "installedAt": "2026-02-26T03:11:27.444Z"
+      "hash": "sha256:6e27a73573d45b7f23727ff73bb5eea4b81a07edcb95933a4fa6167906b9418c",
+      "size": 10173,
+      "installedAt": "2026-03-24T07:24:33.039Z"
     }
   },
   "integrationBlockHashes": {
     "CLAUDE.md": {
-      "blockHash": "sha256:617cfdc6a2954a451ecc18ab004faf8dca5766f2751666fc28312aef4cc94a63",
-      "blockSize": 1331,
-      "fullHash": "sha256:ee009b9a30f476dd1fea01bb47f41376ee8d6777e9f80b0f80199a9fb89d8cf3",
-      "fullSize": 2075,
-      "installedAt": "2026-02-26T03:11:27.364Z"
+      "blockHash": "sha256:9091ee460a7e47f4657074f08e8e9524dbef1ae5c04dde807cca0866aee0dc8e",
+      "blockSize": 4785,
+      "fullHash": "sha256:a229101b4bbe4af62f17b57fba2c12aaa76029fed4db1639c0dbde36a05021d5",
+      "fullSize": 5528,
+      "installedAt": "2026-03-24T07:24:33.041Z"
     },
     "AGENTS.md": {
-      "blockHash": "sha256:617cfdc6a2954a451ecc18ab004faf8dca5766f2751666fc28312aef4cc94a63",
-      "blockSize": 1331,
-      "fullHash": "sha256:a0a7496c6fd62fe6ecf370a77546dbcd7c9bf25e8601f47c13588d0c0e75391e",
-      "fullSize": 2082,
-      "installedAt": "2026-02-26T03:11:27.365Z"
+      "blockHash": "sha256:9091ee460a7e47f4657074f08e8e9524dbef1ae5c04dde807cca0866aee0dc8e",
+      "blockSize": 4785,
+      "fullHash": "sha256:14671c6461f347653e1d89387d6f6bcb7ab7970bd2bc6a6305635b857f306ab8",
+      "fullSize": 5535,
+      "installedAt": "2026-03-24T07:24:33.041Z"
     }
   }
 }
