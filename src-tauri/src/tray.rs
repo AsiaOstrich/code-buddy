@@ -59,7 +59,7 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
             "quit" => app.exit(0),
             "about" => {
                 // TODO: v0.3.0 — 顯示 About 視窗
-                println!("Code Buddy v0.2.0");
+                tracing::info!("Code Buddy v0.2.0");
             }
             _ => {}
         })
@@ -76,6 +76,102 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
         .build(app)?;
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // === get_icon_bytes：每個狀態回傳非空且唯一的圖示資料 ===
+
+    #[test]
+    fn idle_returns_non_empty_icon() {
+        let bytes = get_icon_bytes(&AgentStatus::Idle);
+        assert!(!bytes.is_empty());
+    }
+
+    #[test]
+    fn working_returns_non_empty_icon() {
+        let bytes = get_icon_bytes(&AgentStatus::Working);
+        assert!(!bytes.is_empty());
+    }
+
+    #[test]
+    fn thinking_returns_non_empty_icon() {
+        let bytes = get_icon_bytes(&AgentStatus::Thinking);
+        assert!(!bytes.is_empty());
+    }
+
+    #[test]
+    fn waiting_input_returns_non_empty_icon() {
+        let bytes = get_icon_bytes(&AgentStatus::WaitingInput);
+        assert!(!bytes.is_empty());
+    }
+
+    #[test]
+    fn waiting_confirm_returns_non_empty_icon() {
+        let bytes = get_icon_bytes(&AgentStatus::WaitingConfirm);
+        assert!(!bytes.is_empty());
+    }
+
+    #[test]
+    fn completed_returns_non_empty_icon() {
+        let bytes = get_icon_bytes(&AgentStatus::Completed);
+        assert!(!bytes.is_empty());
+    }
+
+    #[test]
+    fn error_returns_non_empty_icon() {
+        let bytes = get_icon_bytes(&AgentStatus::Error);
+        assert!(!bytes.is_empty());
+    }
+
+    #[test]
+    fn each_status_has_distinct_icon() {
+        let all = [
+            get_icon_bytes(&AgentStatus::Idle),
+            get_icon_bytes(&AgentStatus::Working),
+            get_icon_bytes(&AgentStatus::Thinking),
+            get_icon_bytes(&AgentStatus::WaitingInput),
+            get_icon_bytes(&AgentStatus::WaitingConfirm),
+            get_icon_bytes(&AgentStatus::Completed),
+            get_icon_bytes(&AgentStatus::Error),
+        ];
+        // 每個圖示的指標位置應不同（各自 include_bytes! 產生不同 static）
+        for i in 0..all.len() {
+            for j in (i + 1)..all.len() {
+                assert_ne!(
+                    all[i].as_ptr(),
+                    all[j].as_ptr(),
+                    "狀態 {} 和 {} 共用了相同圖示",
+                    i,
+                    j
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn all_icons_are_valid_png() {
+        let statuses = [
+            AgentStatus::Idle,
+            AgentStatus::Working,
+            AgentStatus::Thinking,
+            AgentStatus::WaitingInput,
+            AgentStatus::WaitingConfirm,
+            AgentStatus::Completed,
+            AgentStatus::Error,
+        ];
+        for status in &statuses {
+            let bytes = get_icon_bytes(status);
+            // PNG magic bytes: 0x89 0x50 0x4E 0x47
+            assert!(
+                bytes.len() >= 4 && bytes[0] == 0x89 && bytes[1] == 0x50,
+                "{:?} 的圖示不是有效的 PNG 格式",
+                status
+            );
+        }
+    }
 }
 
 pub fn update_tray_icon(

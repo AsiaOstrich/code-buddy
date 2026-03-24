@@ -36,13 +36,11 @@ impl NotificationManager {
             return;
         }
 
-        let key = format!("{}:{:?}", session_id, status);
-        let mut last = self.last_notified.lock().unwrap();
+        let key = debounce_key(session_id, status);
+        let mut last = self.last_notified.lock().unwrap_or_else(|e| e.into_inner());
 
-        if let Some(last_time) = last.get(&key) {
-            if last_time.elapsed().as_secs() < DEBOUNCE_SECS {
-                return;
-            }
+        if is_within_debounce(&last, &key) {
+            return;
         }
 
         let (title, body) = notification_text(project_name, status);
@@ -53,15 +51,29 @@ impl NotificationManager {
             .body(&body)
             .show()
         {
-            eprintln!("通知發送失敗: {}", e);
+            tracing::error!("通知發送失敗: {}", e);
         }
 
         last.insert(key, Instant::now());
     }
 }
 
+/// 建構 debounce key（session_id + status 組合）
+pub(crate) fn debounce_key(session_id: &str, status: AgentStatus) -> String {
+    format!("{}:{:?}", session_id, status)
+}
+
+/// 判斷是否在 debounce 間隔內（純邏輯，可測試）
+pub(crate) fn is_within_debounce(last_notified: &HashMap<String, Instant>, key: &str) -> bool {
+    if let Some(last_time) = last_notified.get(key) {
+        last_time.elapsed().as_secs() < DEBOUNCE_SECS
+    } else {
+        false
+    }
+}
+
 /// 判斷此狀態是否需要推送通知
-fn should_notify(status: AgentStatus) -> bool {
+pub(crate) fn should_notify(status: AgentStatus) -> bool {
     matches!(
         status,
         AgentStatus::Completed
@@ -72,7 +84,7 @@ fn should_notify(status: AgentStatus) -> bool {
 }
 
 /// 取得對應狀態的中文通知文案
-fn notification_text(project_name: &str, status: AgentStatus) -> (String, String) {
+pub(crate) fn notification_text(project_name: &str, status: AgentStatus) -> (String, String) {
     match status {
         AgentStatus::Completed => (
             "任務完成".to_string(),
@@ -94,5 +106,97 @@ fn notification_text(project_name: &str, status: AgentStatus) -> (String, String
             "Code Buddy".to_string(),
             format!("{} — {:?}", project_name, status),
         ),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // === AC-7: 通知觸發條件 ===
+
+    #[test]
+    fn completed_should_notify() {
+        assert!(should_notify(AgentStatus::Completed));
+    }
+
+    #[test]
+    fn waiting_input_should_notify() {
+        assert!(should_notify(AgentStatus::WaitingInput));
+    }
+
+    #[test]
+    fn waiting_confirm_should_notify() {
+        assert!(should_notify(AgentStatus::WaitingConfirm));
+    }
+
+    #[test]
+    fn error_should_notify() {
+        assert!(should_notify(AgentStatus::Error));
+    }
+
+    #[test]
+    fn working_should_not_notify() {
+        assert!(!should_notify(AgentStatus::Working));
+    }
+
+    #[test]
+    fn thinking_should_not_notify() {
+        assert!(!should_notify(AgentStatus::Thinking));
+    }
+
+    #[test]
+    fn idle_should_not_notify() {
+        assert!(!should_notify(AgentStatus::Idle));
+    }
+
+    // === AC-7: 通知文案 ===
+
+    #[test]
+    fn completed_text_contains_project_name() {
+        let (title, body) = notification_text("my-app", AgentStatus::Completed);
+        assert_eq!(title, "任務完成");
+        assert!(body.contains("my-app"));
+    }
+
+    #[test]
+    fn waiting_input_text() {
+        let (title, body) = notification_text("my-app", AgentStatus::WaitingInput);
+        assert_eq!(title, "等待輸入");
+        assert!(body.contains("my-app"));
+    }
+
+    #[test]
+    fn waiting_confirm_text() {
+        let (title, _) = notification_text("my-app", AgentStatus::WaitingConfirm);
+        assert_eq!(title, "需要確認");
+    }
+
+    #[test]
+    fn error_text() {
+        let (title, _) = notification_text("my-app", AgentStatus::Error);
+        assert_eq!(title, "發生錯誤");
+    }
+
+    // === AC-7: debounce 純邏輯 ===
+
+    #[test]
+    fn debounce_key_combines_session_and_status() {
+        let key = debounce_key("sess-001", AgentStatus::Completed);
+        assert!(key.contains("sess-001"));
+        assert!(key.contains("Completed"));
+    }
+
+    #[test]
+    fn not_within_debounce_when_no_prior_notification() {
+        let last: HashMap<String, Instant> = HashMap::new();
+        assert!(!is_within_debounce(&last, "sess:Completed"));
+    }
+
+    #[test]
+    fn within_debounce_when_recently_notified() {
+        let mut last: HashMap<String, Instant> = HashMap::new();
+        last.insert("sess:Completed".to_string(), Instant::now());
+        assert!(is_within_debounce(&last, "sess:Completed"));
     }
 }
