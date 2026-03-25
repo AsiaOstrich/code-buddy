@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
+import { BuddyAnimation } from "./components/BuddyAnimation";
 import "./App.css";
 
 const STATUSES = [
@@ -77,6 +78,9 @@ function App() {
   return (
     <div className="container">
       <h1>Code Buddy Dev Panel</h1>
+      <div style={{ width: 120, height: 120, margin: "0 auto" }}>
+        <BuddyAnimation status={effectiveStatus} />
+      </div>
       <p className="status-text">
         有效狀態：
         <strong style={{ color: statusColor(effectiveStatus) }}>
@@ -110,9 +114,9 @@ function App() {
         )}
       </div>
 
-      {/* 手動測試按鈕 */}
-      <div className="section">
-        <h2>手動測試</h2>
+      {/* 手動測試按鈕（可收合） */}
+      <details className="section">
+        <summary><h2 style={{ display: "inline" }}>手動測試</h2></summary>
         <div className="button-grid">
           {STATUSES.map(({ key, label, color }) => (
             <button
@@ -125,7 +129,7 @@ function App() {
             </button>
           ))}
         </div>
-      </div>
+      </details>
 
       {message && <p className="message">{message}</p>}
     </div>
