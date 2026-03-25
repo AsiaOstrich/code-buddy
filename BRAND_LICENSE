@@ -1,0 +1,24 @@
+Brand Assets License / 品牌資產授權聲明
+
+Copyright (c) 2026 AsiaOstrich. All Rights Reserved.
+版權所有 (c) 2026 AsiaOstrich。保留一切權利。
+
+The following brand assets in this repository are NOT covered by the MIT
+License and are proprietary to AsiaOstrich:
+
+  src-tauri/icons/              — Application icons
+  src/assets/themes/ostrich/    — Ostrich theme assets
+
+These brand assets are provided solely for use within this application
+(Code Buddy). All other rights are reserved.
+
+以下品牌資產不適用 MIT 授權，為 AsiaOstrich 之專有財產：
+
+  src-tauri/icons/              — 應用程式圖示
+  src/assets/themes/ostrich/    — 鴕鳥主題資產
+
+這些品牌資產僅供在本應用程式（Code Buddy）中使用。
+其餘一切權利均予保留。
+
+For licensing inquiries, please contact the AsiaOstrich team.
+如需授權相關問題，請聯繫 AsiaOstrich 團隊。
