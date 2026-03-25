@@ -3,6 +3,14 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
+
+// Mock lottie-react to avoid canvas dependency in jsdom
+vi.mock("lottie-react", () => ({
+  default: (props: Record<string, unknown>) => (
+    <div data-testid="lottie" data-loop={String(props.loop ?? true)} />
+  ),
+}));
+
 import App from "../../../src/App";
 
 // Mock Tauri API
