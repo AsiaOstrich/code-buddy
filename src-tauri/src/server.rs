@@ -121,8 +121,10 @@ async fn claude_code_event(
                 .unwrap_or_default()
         };
 
+        // Tray 圖示用 aggregate（全域最高優先級），面板用 effective（焦點 session）
+        let tray_status = app_state.aggregate_status();
         let effective = app_state.effective_status();
-        if let Err(e) = tray::update_tray_icon(&server.app_handle, &effective) {
+        if let Err(e) = tray::update_tray_icon(&server.app_handle, &tray_status) {
             tracing::error!("Tray icon 更新失敗: {}", e);
         }
 
