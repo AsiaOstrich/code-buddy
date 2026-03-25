@@ -178,9 +178,7 @@ pub fn update_tray_icon(
     app: &AppHandle,
     status: &AgentStatus,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let tray = app
-        .tray_by_id("main")
-        .ok_or("Tray icon not found")?;
+    let tray = app.tray_by_id("main").ok_or("Tray icon not found")?;
     let icon_bytes = get_icon_bytes(status);
     let icon = Image::from_bytes(icon_bytes)?;
     tray.set_icon(Some(icon))?;

@@ -100,8 +100,14 @@ impl AppState {
     /// 取得焦點 session 的狀態（pinned > focus > aggregate）
     pub fn effective_status(&self) -> AgentStatus {
         let sessions = self.sessions.lock().unwrap_or_else(|e| e.into_inner());
-        let pinned = self.pinned_session_id.lock().unwrap_or_else(|e| e.into_inner());
-        let focus = self.focus_session_id.lock().unwrap_or_else(|e| e.into_inner());
+        let pinned = self
+            .pinned_session_id
+            .lock()
+            .unwrap_or_else(|e| e.into_inner());
+        let focus = self
+            .focus_session_id
+            .lock()
+            .unwrap_or_else(|e| e.into_inner());
 
         let target_id = pinned.as_ref().or(focus.as_ref());
 

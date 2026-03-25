@@ -40,10 +40,7 @@ pub struct EventResult {
 }
 
 /// 純邏輯：處理 hook 事件，回傳結果和 HTTP 狀態碼（無副作用）
-pub fn handle_hook_event(
-    app_state: &AppState,
-    payload: &HookPayload,
-) -> (StatusCode, EventResult) {
+pub fn handle_hook_event(app_state: &AppState, payload: &HookPayload) -> (StatusCode, EventResult) {
     match process_hook_event(app_state, payload) {
         Ok(new_status) => (
             StatusCode::OK,

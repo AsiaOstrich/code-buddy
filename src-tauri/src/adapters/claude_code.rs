@@ -45,10 +45,7 @@ pub struct HookPayload {
 }
 
 /// 處理 Hook 事件，更新 AppState，回傳新狀態
-pub fn process_hook_event(
-    state: &AppState,
-    payload: &HookPayload,
-) -> Result<AgentStatus, String> {
+pub fn process_hook_event(state: &AppState, payload: &HookPayload) -> Result<AgentStatus, String> {
     let event = HookEventName::from_str(&payload.hook_event_name)
         .ok_or_else(|| format!("未知的 hook 事件: {}", payload.hook_event_name))?;
 
@@ -87,27 +84,52 @@ pub fn process_hook_event(
             Ok(AgentStatus::Idle)
         }
         HookEventName::UserPromptSubmit => {
-            update_session_status(&mut sessions, &payload.session_id, AgentStatus::Thinking, &payload.project_path);
+            update_session_status(
+                &mut sessions,
+                &payload.session_id,
+                AgentStatus::Thinking,
+                &payload.project_path,
+            );
             failure_counter.reset(&payload.session_id);
             Ok(AgentStatus::Thinking)
         }
         HookEventName::PostToolUse => {
-            update_session_status(&mut sessions, &payload.session_id, AgentStatus::Working, &payload.project_path);
+            update_session_status(
+                &mut sessions,
+                &payload.session_id,
+                AgentStatus::Working,
+                &payload.project_path,
+            );
             failure_counter.reset(&payload.session_id);
             Ok(AgentStatus::Working)
         }
         HookEventName::PostToolUseFailure => {
             let count = failure_counter.increment(&payload.session_id);
             if count >= 3 {
-                update_session_status(&mut sessions, &payload.session_id, AgentStatus::Error, &payload.project_path);
+                update_session_status(
+                    &mut sessions,
+                    &payload.session_id,
+                    AgentStatus::Error,
+                    &payload.project_path,
+                );
                 Ok(AgentStatus::Error)
             } else {
-                update_session_status(&mut sessions, &payload.session_id, AgentStatus::Working, &payload.project_path);
+                update_session_status(
+                    &mut sessions,
+                    &payload.session_id,
+                    AgentStatus::Working,
+                    &payload.project_path,
+                );
                 Ok(AgentStatus::Working)
             }
         }
         HookEventName::Stop => {
-            update_session_status(&mut sessions, &payload.session_id, AgentStatus::Completed, &payload.project_path);
+            update_session_status(
+                &mut sessions,
+                &payload.session_id,
+                AgentStatus::Completed,
+                &payload.project_path,
+            );
             failure_counter.reset(&payload.session_id);
             Ok(AgentStatus::Completed)
         }
@@ -117,7 +139,12 @@ pub fn process_hook_event(
                 Some("permission_prompt") => AgentStatus::WaitingConfirm,
                 _ => AgentStatus::WaitingInput,
             };
-            update_session_status(&mut sessions, &payload.session_id, status, &payload.project_path);
+            update_session_status(
+                &mut sessions,
+                &payload.session_id,
+                status,
+                &payload.project_path,
+            );
             failure_counter.reset(&payload.session_id);
             Ok(status)
         }
