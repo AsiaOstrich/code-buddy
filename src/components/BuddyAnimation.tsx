@@ -1,4 +1,38 @@
-// TODO: v0.3.0 — Buddy 角色動畫元件
-// - 使用 lottie-react 播放 Lottie JSON 動畫
-// - 根據 AgentStatus 切換動畫
-// - 支援 theme 主題切換
+import Lottie from "lottie-react";
+
+import idleData from "../animations/idle.json";
+import workingData from "../animations/working.json";
+import thinkingData from "../animations/thinking.json";
+import waitingInputData from "../animations/waiting_input.json";
+import waitingConfirmData from "../animations/waiting_confirm.json";
+import completedData from "../animations/completed.json";
+import errorData from "../animations/error.json";
+
+const ANIMATION_MAP: Record<string, object> = {
+  idle: idleData,
+  working: workingData,
+  thinking: thinkingData,
+  waiting_input: waitingInputData,
+  waiting_confirm: waitingConfirmData,
+  completed: completedData,
+  error: errorData,
+};
+
+const LOOP_STATUSES = new Set([
+  "idle",
+  "working",
+  "thinking",
+  "waiting_input",
+  "waiting_confirm",
+]);
+
+interface BuddyAnimationProps {
+  status: string;
+}
+
+export function BuddyAnimation({ status }: BuddyAnimationProps) {
+  const animationData = ANIMATION_MAP[status] ?? ANIMATION_MAP.idle;
+  const loop = LOOP_STATUSES.has(status);
+
+  return <Lottie animationData={animationData} loop={loop} />;
+}
