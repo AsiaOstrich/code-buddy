@@ -1,11 +1,5 @@
 import type { SessionInfo } from "../store";
 
-const ATTENTION_STATUSES = new Set([
-  "waiting_input",
-  "waiting_confirm",
-  "error",
-]);
-
 const STATUS_PRIORITY: Record<string, number> = {
   waiting_input: 6,
   waiting_confirm: 6,
