@@ -60,14 +60,14 @@ describe("BuddyAnimation", () => {
     expect(screen.getByTestId("lottie")).toHaveAttribute("data-loop", "true");
   });
 
-  it("AC-9 — completed 動畫播放一次後靜止", () => {
+  it("AC-9 — completed 動畫循環播放", () => {
     render(<BuddyAnimation status="completed" />);
-    expect(screen.getByTestId("lottie")).toHaveAttribute("data-loop", "false");
+    expect(screen.getByTestId("lottie")).toHaveAttribute("data-loop", "true");
   });
 
-  it("AC-9 — error 動畫播放一次後靜止", () => {
+  it("AC-9 — error 動畫循環播放", () => {
     render(<BuddyAnimation status="error" />);
-    expect(screen.getByTestId("lottie")).toHaveAttribute("data-loop", "false");
+    expect(screen.getByTestId("lottie")).toHaveAttribute("data-loop", "true");
   });
 
   // === AC-9: 狀態切換 ===

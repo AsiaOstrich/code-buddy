@@ -18,21 +18,12 @@ const ANIMATION_MAP: Record<string, object> = {
   error: errorData,
 };
 
-const LOOP_STATUSES = new Set([
-  "idle",
-  "working",
-  "thinking",
-  "waiting_input",
-  "waiting_confirm",
-]);
-
 interface BuddyAnimationProps {
   status: string;
 }
 
 export function BuddyAnimation({ status }: BuddyAnimationProps) {
   const animationData = ANIMATION_MAP[status] ?? ANIMATION_MAP.idle;
-  const loop = LOOP_STATUSES.has(status);
 
-  return <Lottie animationData={animationData} loop={loop} />;
+  return <Lottie animationData={animationData} loop />;
 }

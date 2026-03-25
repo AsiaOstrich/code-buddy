@@ -1,5 +1,7 @@
 mod adapters;
 mod commands;
+#[cfg(target_os = "macos")]
+mod dock;
 mod notification;
 mod popover;
 mod server;
@@ -27,15 +29,14 @@ pub fn run() {
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]
-            {
-                #[cfg(debug_assertions)]
-                app.set_activation_policy(tauri::ActivationPolicy::Regular);
-
-                #[cfg(not(debug_assertions))]
-                app.set_activation_policy(tauri::ActivationPolicy::Accessory);
-            }
+            app.set_activation_policy(tauri::ActivationPolicy::Regular);
 
             tray::setup_tray(app)?;
+
+            #[cfg(target_os = "macos")]
+            if let Err(e) = dock::update_dock_icon(app.handle(), &state::AgentStatus::Idle) {
+                tracing::error!("初始 Dock icon 設定失敗: {}", e);
+            }
 
             // 啟動 HTTP server 接收 hook 事件
             let app_handle = app.handle().clone();

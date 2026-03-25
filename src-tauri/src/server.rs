@@ -127,6 +127,10 @@ async fn claude_code_event(
         if let Err(e) = tray::update_tray_icon(&server.app_handle, &tray_status) {
             tracing::error!("Tray icon 更新失敗: {}", e);
         }
+        #[cfg(target_os = "macos")]
+        if let Err(e) = crate::dock::update_dock_icon(&server.app_handle, &tray_status) {
+            tracing::error!("Dock icon 更新失敗: {}", e);
+        }
 
         if let Some(new_status) = result.status {
             server.notification_manager.try_notify(
