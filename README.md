@@ -85,4 +85,5 @@ code-buddy/
 
 ## 授權
 
-[MIT License](LICENSE)
+程式碼採用 [MIT License](LICENSE)。
+品牌資產（圖示、標誌、主題美術）不適用 MIT 授權，詳見 [BRAND_LICENSE](BRAND_LICENSE)。
