@@ -42,7 +42,7 @@ Body MUST be bilingual: English first → blank line → Chinese second. NEVER m
 
 本專案採用 UDS 標準。所有規範位於 `.standards/`：
 
-### Core (51 standards)
+### Core (52 standards)
 - `deployment-standards.ai.yaml` - deployment-standards.ai.yaml
 - `documentation-writing-standards.ai.yaml` - documentation-writing-standards.ai.yaml
 - `ai-agreement-standards.ai.yaml` - ai-agreement-standards.ai.yaml
@@ -94,6 +94,7 @@ Body MUST be bilingual: English first → blank line → Chinese second. NEVER m
 - `git-worktree.ai.yaml` - git-worktree.ai.yaml
 - `branch-completion.ai.yaml` - branch-completion.ai.yaml
 - `verification-evidence.ai.yaml` - verification-evidence.ai.yaml
+- `ai-command-behavior.ai.yaml` - ai-command-behavior.ai.yaml
 <!-- UDS:STANDARDS:END -->
 
 ---
