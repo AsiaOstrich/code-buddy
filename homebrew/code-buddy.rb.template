@@ -1,0 +1,36 @@
+# Homebrew Formula for Code Buddy
+# 此為模板，CI 發布時會自動替換版本號和 SHA256
+# 實際 Formula 位於 AsiaOstrich/homebrew-tap repo
+class CodeBuddy < Formula
+  desc "AI coding agent status monitor for your menu bar"
+  homepage "https://github.com/AsiaOstrich/code-buddy"
+  version "{{VERSION}}"
+  license "MIT"
+
+  on_macos do
+    if Hardware::CPU.arm?
+      url "https://github.com/AsiaOstrich/code-buddy/releases/download/v{{VERSION}}/Code Buddy_{{VERSION}}_aarch64.dmg"
+      sha256 "{{SHA256_DARWIN_ARM64}}"
+    else
+      url "https://github.com/AsiaOstrich/code-buddy/releases/download/v{{VERSION}}/Code Buddy_{{VERSION}}_x86_64.dmg"
+      sha256 "{{SHA256_DARWIN_X86_64}}"
+    end
+  end
+
+  on_linux do
+    url "https://github.com/AsiaOstrich/code-buddy/releases/download/v{{VERSION}}/code-buddy_{{VERSION}}_x86_64.AppImage"
+    sha256 "{{SHA256_LINUX_X86_64}}"
+  end
+
+  def install
+    if OS.mac?
+      prefix.install Dir["*"]
+    else
+      bin.install "code-buddy"
+    end
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/code-buddy --version")
+  end
+end

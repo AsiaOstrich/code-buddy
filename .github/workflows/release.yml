@@ -33,18 +33,47 @@ jobs:
         working-directory: src-tauri
         run: cargo test --verbose
 
-  # 建置並發布
+  test-frontend:
+    name: Test (Frontend)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: npm install
+        run: npm ci
+
+      - name: vitest
+        run: npx vitest run
+
+  # 跨平台建置並發布
   release:
-    name: Release (${{ matrix.os }})
-    needs: test
+    name: Release (${{ matrix.label }})
+    needs: [test, test-frontend]
     strategy:
+      fail-fast: false
       matrix:
         include:
+          # macOS
           - os: macos-latest
             target: aarch64-apple-darwin
-          # Post-MVP: Windows
-          # - os: windows-latest
-          #   target: x86_64-pc-windows-msvc
+            label: macOS-arm64
+          - os: macos-13
+            target: x86_64-apple-darwin
+            label: macOS-x86_64
+          # Linux
+          - os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            label: Linux-x86_64
+          # Windows
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            label: Windows-x86_64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -53,6 +82,12 @@ jobs:
         uses: dtolnay/rust-action/setup@v1
         with:
           targets: ${{ matrix.target }}
+
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libgtk-3-dev
 
       - name: Rust cache
         uses: Swatinem/rust-cache@v2
