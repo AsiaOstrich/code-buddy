@@ -49,6 +49,11 @@ git push origin v0.3.0
 - 跑測試（Rust + Frontend）
 - 跨平台建置（macOS arm64、macOS x86_64、Linux x86_64、Windows x86_64）
 - 上傳安裝檔到 GitHub Releases（Draft 狀態）
+- 發布平台套件到 npm（`@asiaostrich/code-buddy-*`）
+- 發布主套件到 npm（`@asiaostrich/code-buddy`）
+
+> **npm 發布前置條件**：需要在 GitHub repo Settings → Secrets 設定 `NPM_TOKEN`。
+> 取得方式：`npm token create` 或在 npmjs.com 帳號設定中建立。
 
 ### 5. 追蹤 Release Workflow
 

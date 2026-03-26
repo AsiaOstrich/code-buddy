@@ -51,7 +51,7 @@ jobs:
       - name: vitest
         run: npx vitest run
 
-  # 跨平台建置並發布
+  # 跨平台建置並發布到 GitHub Releases
   release:
     name: Release (${{ matrix.label }})
     needs: [test, test-frontend]
@@ -59,21 +59,22 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # macOS
           - os: macos-latest
             target: aarch64-apple-darwin
             label: macOS-arm64
+            npm-pkg: code-buddy-darwin-arm64
           - os: macos-latest
             target: x86_64-apple-darwin
             label: macOS-x86_64
-          # Linux
+            npm-pkg: code-buddy-darwin-x64
           - os: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
             label: Linux-x86_64
-          # Windows
+            npm-pkg: code-buddy-linux-x64
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             label: Windows-x86_64
+            npm-pkg: code-buddy-win32-x64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -99,6 +100,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          registry-url: "https://registry.npmjs.org"
 
       - name: npm install
         run: npm ci
@@ -114,3 +116,99 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: --target ${{ matrix.target }}
+
+      # 複製 binary 到 npm 平台套件
+      - name: Copy binary to npm package (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          BINARY=$(find src-tauri/target/${{ matrix.target }}/release -maxdepth 1 -name "code-buddy" -type f | head -1)
+          if [ -n "$BINARY" ]; then
+            cp "$BINARY" npm/${{ matrix.npm-pkg }}/bin/code-buddy
+            chmod +x npm/${{ matrix.npm-pkg }}/bin/code-buddy
+            echo "Copied: $BINARY → npm/${{ matrix.npm-pkg }}/bin/code-buddy"
+          else
+            echo "::error::Binary not found for ${{ matrix.target }}"
+            exit 1
+          fi
+
+      - name: Copy binary to npm package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $binary = Get-ChildItem -Path "src-tauri/target/${{ matrix.target }}/release" -Filter "code-buddy.exe" -File | Select-Object -First 1
+          if ($binary) {
+            Copy-Item $binary.FullName "npm/${{ matrix.npm-pkg }}/bin/code-buddy.exe"
+            Write-Host "Copied: $($binary.FullName)"
+          } else {
+            Write-Error "Binary not found for ${{ matrix.target }}"
+            exit 1
+          }
+
+      # 上傳 npm 套件為 artifact（供 publish job 使用）
+      - name: Upload npm package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-${{ matrix.npm-pkg }}
+          path: npm/${{ matrix.npm-pkg }}/
+
+  # 發布到 npm
+  npm-publish:
+    name: Publish to npm
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Download all npm platform artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: npm-*
+          path: npm-artifacts/
+
+      # 設定版本號（從 git tag 取得）
+      - name: Set version from tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Publishing version: $VERSION"
+
+      # 發布平台套件
+      - name: Publish platform packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          for pkg_dir in npm-artifacts/npm-code-buddy-*/; do
+            pkg_name=$(basename "$pkg_dir" | sed 's/^npm-//')
+            echo "Publishing @asiaostrich/${pkg_name}@${VERSION}..."
+
+            # 更新版本號
+            cd "$pkg_dir"
+            npm version "$VERSION" --no-git-tag-version --allow-same-version
+            npm publish --access public || echo "::warning::Failed to publish ${pkg_name}"
+            cd -
+          done
+
+      # 發布主套件
+      - name: Publish main package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd npm/code-buddy
+
+          # 更新版本號和 optionalDependencies 版本
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+          node -e "
+            const pkg = require('./package.json');
+            for (const dep of Object.keys(pkg.optionalDependencies || {})) {
+              pkg.optionalDependencies[dep] = '$VERSION';
+            }
+            require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+
+          npm publish --access public || echo "::warning::Failed to publish main package"

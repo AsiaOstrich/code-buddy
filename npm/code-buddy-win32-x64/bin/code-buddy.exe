@@ -1,0 +1,3 @@
+#!/bin/sh
+echo 'code-buddy: placeholder binary — install from release'
+exit 1

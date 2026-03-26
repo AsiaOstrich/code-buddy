@@ -1,0 +1,20 @@
+{
+  "name": "@asiaostrich/code-buddy-linux-x64",
+  "version": "0.0.0",
+  "description": "Code Buddy binary for linux x64",
+  "license": "MIT",
+  "preferUnplugged": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsiaOstrich/code-buddy"
+  }
+}
