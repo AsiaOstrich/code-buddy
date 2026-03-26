@@ -2,6 +2,7 @@ mod adapters;
 mod commands;
 #[cfg(target_os = "macos")]
 mod dock;
+mod float;
 mod notification;
 mod popover;
 mod server;
