@@ -37,8 +37,7 @@ fn show_and_focus_window(app: &AppHandle) {
 
 pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     let show = MenuItem::with_id(app, "show", "顯示面板", true, None::<&str>)?;
-    let float_toggle =
-        MenuItem::with_id(app, "float", "浮動模式", true, None::<&str>)?;
+    let float_toggle = MenuItem::with_id(app, "float", "浮動模式", true, None::<&str>)?;
     let about = MenuItem::with_id(app, "about", "關於 Code Buddy", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, "quit", "退出 Code Buddy", true, None::<&str>)?;
 
