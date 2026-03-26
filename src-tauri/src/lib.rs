@@ -27,6 +27,9 @@ pub fn run() {
             commands::switch_tray_icon,
             commands::get_current_status,
             commands::get_sessions,
+            commands::toggle_float_window,
+            commands::set_float_opacity,
+            commands::save_float_position,
         ])
         .setup(|app| {
             #[cfg(target_os = "macos")]

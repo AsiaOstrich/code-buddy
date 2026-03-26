@@ -37,11 +37,14 @@ fn show_and_focus_window(app: &AppHandle) {
 
 pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     let show = MenuItem::with_id(app, "show", "顯示面板", true, None::<&str>)?;
+    let float_toggle =
+        MenuItem::with_id(app, "float", "浮動模式", true, None::<&str>)?;
     let about = MenuItem::with_id(app, "about", "關於 Code Buddy", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, "quit", "退出 Code Buddy", true, None::<&str>)?;
 
     let menu = MenuBuilder::new(app)
         .item(&show)
+        .item(&float_toggle)
         .separator()
         .item(&about)
         .separator()
@@ -56,9 +59,13 @@ pub fn setup_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id.as_ref() {
             "show" => show_and_focus_window(app),
+            "float" => {
+                if let Err(e) = crate::float::toggle_float_window(app) {
+                    tracing::error!("浮動視窗切換失敗: {}", e);
+                }
+            }
             "quit" => app.exit(0),
             "about" => {
-                // TODO: v0.3.0 — 顯示 About 視窗
                 tracing::info!("Code Buddy v0.2.0");
             }
             _ => {}

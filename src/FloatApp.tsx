@@ -30,9 +30,10 @@ const STATUS_COLORS: Record<string, string> = {
 
 interface FloatAppProps {
   status: string;
+  opacity?: number;
 }
 
-export default function FloatApp({ status }: FloatAppProps) {
+export default function FloatApp({ status, opacity = 1.0 }: FloatAppProps) {
   const animationData = ANIMATION_MAP[status] ?? ANIMATION_MAP.idle;
   const borderColor = STATUS_COLORS[status] ?? STATUS_COLORS.idle;
 
@@ -47,9 +48,16 @@ export default function FloatApp({ status }: FloatAppProps) {
         border: `3px solid ${borderColor}`,
         cursor: "grab",
         background: "transparent",
+        opacity,
       }}
     >
-      <Lottie animationData={animationData} loop />
+      <Lottie
+        key={status}
+        animationData={animationData}
+        loop
+        autoplay
+        style={{ width: "100%", height: "100%", pointerEvents: "none" }}
+      />
     </div>
   );
 }
