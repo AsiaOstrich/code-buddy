@@ -38,6 +38,9 @@ pub struct HookPayload {
     pub session_id: String,
     #[serde(default)]
     pub project_path: String,
+    /// Claude Code 原始 hook JSON 使用 `cwd` 而非 `project_path`
+    #[serde(default)]
+    pub cwd: Option<String>,
     #[serde(default)]
     pub notification_type: Option<String>,
     #[serde(default)]
@@ -49,19 +52,26 @@ pub fn process_hook_event(state: &AppState, payload: &HookPayload) -> Result<Age
     let event = HookEventName::from_str(&payload.hook_event_name)
         .ok_or_else(|| format!("未知的 hook 事件: {}", payload.hook_event_name))?;
 
+    // project_path 優先；若為空則 fallback 到 cwd（Claude Code 原始格式）
+    let effective_path = if payload.project_path.is_empty() {
+        payload.cwd.as_deref().unwrap_or("")
+    } else {
+        &payload.project_path
+    };
+
     let mut sessions = state.sessions.lock().map_err(|e| e.to_string())?;
     let mut failure_counter = state.failure_counter.lock().map_err(|e| e.to_string())?;
 
     match event {
         HookEventName::SessionStart => {
-            let project_name = extract_project_name(&payload.project_path);
+            let project_name = extract_project_name(effective_path);
             sessions.insert(
                 payload.session_id.clone(),
                 SessionInfo {
                     id: payload.session_id.clone(),
                     agent_type: AgentType::ClaudeCode,
                     status: AgentStatus::Idle,
-                    project_path: payload.project_path.clone(),
+                    project_path: effective_path.to_string(),
                     project_name,
                     last_updated: Some(Instant::now()),
                     duration_secs: 0,
@@ -88,7 +98,7 @@ pub fn process_hook_event(state: &AppState, payload: &HookPayload) -> Result<Age
                 &mut sessions,
                 &payload.session_id,
                 AgentStatus::Thinking,
-                &payload.project_path,
+                effective_path,
             );
             failure_counter.reset(&payload.session_id);
             Ok(AgentStatus::Thinking)
@@ -98,7 +108,7 @@ pub fn process_hook_event(state: &AppState, payload: &HookPayload) -> Result<Age
                 &mut sessions,
                 &payload.session_id,
                 AgentStatus::Working,
-                &payload.project_path,
+                effective_path,
             );
             failure_counter.reset(&payload.session_id);
             Ok(AgentStatus::Working)
@@ -110,7 +120,7 @@ pub fn process_hook_event(state: &AppState, payload: &HookPayload) -> Result<Age
                     &mut sessions,
                     &payload.session_id,
                     AgentStatus::Error,
-                    &payload.project_path,
+                    effective_path,
                 );
                 Ok(AgentStatus::Error)
             } else {
@@ -118,7 +128,7 @@ pub fn process_hook_event(state: &AppState, payload: &HookPayload) -> Result<Age
                     &mut sessions,
                     &payload.session_id,
                     AgentStatus::Working,
-                    &payload.project_path,
+                    effective_path,
                 );
                 Ok(AgentStatus::Working)
             }
@@ -128,7 +138,7 @@ pub fn process_hook_event(state: &AppState, payload: &HookPayload) -> Result<Age
                 &mut sessions,
                 &payload.session_id,
                 AgentStatus::Completed,
-                &payload.project_path,
+                effective_path,
             );
             failure_counter.reset(&payload.session_id);
             Ok(AgentStatus::Completed)
@@ -143,7 +153,7 @@ pub fn process_hook_event(state: &AppState, payload: &HookPayload) -> Result<Age
                 &mut sessions,
                 &payload.session_id,
                 status,
-                &payload.project_path,
+                effective_path,
             );
             failure_counter.reset(&payload.session_id);
             Ok(status)
@@ -197,6 +207,7 @@ mod tests {
             hook_event_name: event.to_string(),
             session_id: session_id.to_string(),
             project_path: "/Users/user/my-project".to_string(),
+            cwd: None,
             notification_type: None,
             raw: None,
         }
@@ -207,6 +218,7 @@ mod tests {
             hook_event_name: "Notification".to_string(),
             session_id: session_id.to_string(),
             project_path: "/Users/user/my-project".to_string(),
+            cwd: None,
             notification_type: Some(ntype.to_string()),
             raw: None,
         }
@@ -367,4 +379,199 @@ mod tests {
     fn handles_single_segment() {
         assert_eq!(extract_project_name("my-app"), "my-app");
     }
+
+    // ==========================================================
+    // SPEC-004: Raw JSON 格式 — cwd fallback 測試
+    // ==========================================================
+
+    // [Derived] AC-4: server 接受含 cwd 的原始 JSON 格式
+    // [TODO] 需先在 HookPayload 新增 cwd: Option<String> 欄位
+
+    /// [Generated] AC-4: 僅有 cwd、無 project_path 時，使用 cwd 作為 project_path
+    #[test]
+    fn raw_json_cwd_used_when_project_path_empty() {
+        let state = AppState::default();
+        let payload = HookPayload {
+            hook_event_name: "SessionStart".to_string(),
+            session_id: "raw-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("/Users/dev/my-project".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        let result = process_hook_event(&state, &payload);
+        assert_eq!(result.unwrap(), AgentStatus::Idle);
+
+        let sessions = state.sessions.lock().unwrap();
+        assert_eq!(sessions["raw-001"].project_path, "/Users/dev/my-project");
+        assert_eq!(sessions["raw-001"].project_name, "my-project");
+    }
+
+    /// [Generated] AC-5: 同時有 project_path 和 cwd 時，優先使用 project_path
+    #[test]
+    fn project_path_takes_priority_over_cwd() {
+        let state = AppState::default();
+        let payload = HookPayload {
+            hook_event_name: "SessionStart".to_string(),
+            session_id: "priority-001".to_string(),
+            project_path: "/from/project_path".to_string(),
+            cwd: Some("/from/cwd".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        let result = process_hook_event(&state, &payload);
+        assert_eq!(result.unwrap(), AgentStatus::Idle);
+
+        let sessions = state.sessions.lock().unwrap();
+        assert_eq!(sessions["priority-001"].project_path, "/from/project_path");
+    }
+
+    /// [Generated] AC-8: 兩欄位皆空時使用空字串（不 panic）
+    #[test]
+    fn both_path_fields_empty_uses_empty_string() {
+        let state = AppState::default();
+        let payload = HookPayload {
+            hook_event_name: "PostToolUse".to_string(),
+            session_id: "empty-001".to_string(),
+            project_path: "".to_string(),
+            cwd: None,
+            notification_type: None,
+            raw: None,
+        };
+        let result = process_hook_event(&state, &payload);
+        assert_eq!(result.unwrap(), AgentStatus::Working);
+
+        let sessions = state.sessions.lock().unwrap();
+        assert_eq!(sessions["empty-001"].project_path, "");
+    }
+
+    /// [Generated] AC-8: cwd 為 None、project_path 為空時，fallback 到空字串
+    #[test]
+    fn cwd_none_project_path_empty_falls_back_to_empty() {
+        let state = AppState::default();
+        let payload = HookPayload {
+            hook_event_name: "SessionStart".to_string(),
+            session_id: "fallback-001".to_string(),
+            project_path: "".to_string(),
+            cwd: None,
+            notification_type: None,
+            raw: None,
+        };
+        process_hook_event(&state, &payload).unwrap();
+
+        let sessions = state.sessions.lock().unwrap();
+        assert_eq!(sessions["fallback-001"].project_path, "");
+        assert_eq!(sessions["fallback-001"].project_name, "");
+    }
+
+    /// [Generated] AC-4: Windows 路徑的 cwd 正確提取 project_name
+    #[test]
+    fn cwd_windows_path_extracts_project_name() {
+        let state = AppState::default();
+        let payload = HookPayload {
+            hook_event_name: "SessionStart".to_string(),
+            session_id: "win-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("C:\\Users\\dev\\Documents\\my-app".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        process_hook_event(&state, &payload).unwrap();
+
+        let sessions = state.sessions.lock().unwrap();
+        assert_eq!(sessions["win-001"].project_name, "my-app");
+    }
+
+    /// [Generated] AC-6: raw JSON 格式下完整生命週期（cwd 欄位）
+    #[test]
+    fn raw_json_full_lifecycle_with_cwd() {
+        let state = AppState::default();
+
+        // SessionStart with cwd
+        let p = HookPayload {
+            hook_event_name: "SessionStart".to_string(),
+            session_id: "lc-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("/Users/dev/app".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        assert_eq!(process_hook_event(&state, &p).unwrap(), AgentStatus::Idle);
+
+        // UserPromptSubmit
+        let p = HookPayload {
+            hook_event_name: "UserPromptSubmit".to_string(),
+            session_id: "lc-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("/Users/dev/app".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        assert_eq!(process_hook_event(&state, &p).unwrap(), AgentStatus::Thinking);
+
+        // PostToolUse
+        let p = HookPayload {
+            hook_event_name: "PostToolUse".to_string(),
+            session_id: "lc-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("/Users/dev/app".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        assert_eq!(process_hook_event(&state, &p).unwrap(), AgentStatus::Working);
+
+        // Stop
+        let p = HookPayload {
+            hook_event_name: "Stop".to_string(),
+            session_id: "lc-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("/Users/dev/app".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        assert_eq!(process_hook_event(&state, &p).unwrap(), AgentStatus::Completed);
+
+        // SessionEnd
+        let p = HookPayload {
+            hook_event_name: "SessionEnd".to_string(),
+            session_id: "lc-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("/Users/dev/app".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        assert_eq!(process_hook_event(&state, &p).unwrap(), AgentStatus::Idle);
+
+        let sessions = state.sessions.lock().unwrap();
+        assert!(!sessions.contains_key("lc-001"));
+    }
+
+    /// [Generated] AC-4+AC-6: raw JSON Notification 正確解析 notification_type
+    #[test]
+    fn raw_json_notification_with_cwd() {
+        let state = AppState::default();
+
+        let p = HookPayload {
+            hook_event_name: "SessionStart".to_string(),
+            session_id: "notif-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("/Users/dev/app".to_string()),
+            notification_type: None,
+            raw: None,
+        };
+        process_hook_event(&state, &p).unwrap();
+
+        let p = HookPayload {
+            hook_event_name: "Notification".to_string(),
+            session_id: "notif-001".to_string(),
+            project_path: "".to_string(),
+            cwd: Some("/Users/dev/app".to_string()),
+            notification_type: Some("permission_prompt".to_string()),
+            raw: None,
+        };
+        assert_eq!(process_hook_event(&state, &p).unwrap(), AgentStatus::WaitingConfirm);
+    }
+
+    // [Derived] AC-7: 現有 server.rs 測試用 raw JSON POST 格式
+    // → 見 server.rs 中的整合測試（需新增 raw JSON 格式的測試案例）
 }

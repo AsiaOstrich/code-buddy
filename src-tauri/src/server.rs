@@ -445,6 +445,7 @@ mod tests {
             hook_event_name: "SessionStart".to_string(),
             session_id: "s1".to_string(),
             project_path: "/path/proj".to_string(),
+            cwd: None,
             notification_type: None,
             raw: None,
         };
@@ -461,6 +462,7 @@ mod tests {
             hook_event_name: "Bogus".to_string(),
             session_id: "s1".to_string(),
             project_path: "/path".to_string(),
+            cwd: None,
             notification_type: None,
             raw: None,
         };
@@ -468,5 +470,43 @@ mod tests {
         assert_eq!(code, StatusCode::BAD_REQUEST);
         assert!(!result.ok);
         assert!(result.error.is_some());
+    }
+
+    // === SPEC-004: Raw JSON 格式整合測試 ===
+
+    #[tokio::test]
+    async fn event_accepts_raw_json_with_cwd() {
+        let state = Arc::new(AppState::default());
+        let app = test_router(state.clone());
+
+        // Claude Code 原始格式：使用 cwd 而非 project_path
+        let payload = serde_json::json!({
+            "hook_event_name": "SessionStart",
+            "session_id": "raw-int-001",
+            "cwd": "/Users/dev/my-project"
+        });
+
+        let response = app
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/claude-code/event")
+                    .header("Content-Type", "application/json")
+                    .body(Body::from(serde_json::to_string(&payload).unwrap()))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(response.status(), StatusCode::OK);
+
+        let body = response.into_body().collect().await.unwrap().to_bytes();
+        let json: serde_json::Value = serde_json::from_slice(&body).unwrap();
+        assert_eq!(json["ok"], true);
+        assert_eq!(json["session_id"], "raw-int-001");
+
+        let sessions = state.sessions.lock().unwrap();
+        assert!(sessions.contains_key("raw-int-001"));
+        assert_eq!(sessions["raw-int-001"].project_name, "my-project");
     }
 }
