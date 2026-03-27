@@ -185,12 +185,12 @@ jobs:
         run: |
           for pkg_dir in npm-artifacts/npm-code-buddy-*/; do
             pkg_name=$(basename "$pkg_dir" | sed 's/^npm-//')
-            echo "Publishing @asiaostrich/${pkg_name}@${VERSION}..."
+            echo "Publishing ${pkg_name}@${VERSION}..."
 
             # 更新版本號
             cd "$pkg_dir"
             npm version "$VERSION" --no-git-tag-version --allow-same-version
-            npm publish --access public || echo "::warning::Failed to publish ${pkg_name}"
+            npm publish || echo "::warning::Failed to publish ${pkg_name}"
             cd -
           done
 
@@ -211,4 +211,4 @@ jobs:
             require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
           "
 
-          npm publish --access public || echo "::warning::Failed to publish main package"
+          npm publish || echo "::warning::Failed to publish main package"

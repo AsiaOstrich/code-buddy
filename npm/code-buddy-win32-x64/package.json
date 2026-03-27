@@ -1,5 +1,5 @@
 {
-  "name": "@asiaostrich/code-buddy-win32-x64",
+  "name": "code-buddy-win32-x64",
   "version": "0.0.0",
   "description": "Code Buddy binary for win32 x64",
   "license": "MIT",

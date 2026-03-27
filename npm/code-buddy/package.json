@@ -1,5 +1,5 @@
 {
-  "name": "@asiaostrich/code-buddy",
+  "name": "code-buddy",
   "version": "0.0.0",
   "description": "AI coding agent status monitor for your menu bar",
   "license": "MIT",
@@ -18,9 +18,9 @@
     "node": ">=18"
   },
   "optionalDependencies": {
-    "@asiaostrich/code-buddy-darwin-arm64": "0.0.0",
-    "@asiaostrich/code-buddy-darwin-x64": "0.0.0",
-    "@asiaostrich/code-buddy-linux-x64": "0.0.0",
-    "@asiaostrich/code-buddy-win32-x64": "0.0.0"
+    "code-buddy-darwin-arm64": "0.0.0",
+    "code-buddy-darwin-x64": "0.0.0",
+    "code-buddy-linux-x64": "0.0.0",
+    "code-buddy-win32-x64": "0.0.0"
   }
 }
